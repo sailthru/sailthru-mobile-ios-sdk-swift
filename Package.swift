@@ -14,7 +14,7 @@ let package = Package(
             targets: ["SailthruMobileSwift"]),
     ],
     dependencies: [
-        .package(name: "SailthruMobile", url: "https://github.com/carnivalmobile/carnival-ios-sdk", .upToNextMajor(from: "12.0.0")),
+        .package(name: "SailthruMobile", url: "https://github.com/sailthru/sailthru-mobile-ios-sdk", .upToNextMajor(from: "14.0.0")),
     ],
     targets: [
         .target(

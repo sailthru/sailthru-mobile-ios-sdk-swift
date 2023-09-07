@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "SailthruMobile",
-        "repositoryURL": "https://github.com/carnivalmobile/carnival-ios-sdk",
+        "repositoryURL": "https://github.com/sailthru/sailthru-mobile-ios-sdk",
         "state": {
           "branch": null,
-          "revision": "042c3bb28ac74105ece09835409b91a67006ddb4",
-          "version": "12.2.0"
+          "revision": "0ff5db01ffadf499d7b717f47353f884de940d3e",
+          "version": "14.0.0"
         }
       }
     ]
