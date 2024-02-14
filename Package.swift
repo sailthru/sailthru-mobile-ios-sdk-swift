@@ -4,28 +4,28 @@
 import PackageDescription
 
 let package = Package(
-    name: "SailthruMobileSwift",
+    name: "MarigoldSwift",
     platforms: [
         .iOS(.v13)
     ],
     products: [
         .library(
-            name: "SailthruMobileSwift",
-            targets: ["SailthruMobileSwift"]),
+            name: "MarigoldSwift",
+            targets: ["MarigoldSwift"]),
     ],
     dependencies: [
-        .package(name: "SailthruMobile", url: "https://github.com/sailthru/sailthru-mobile-ios-sdk", .upToNextMajor(from: "14.0.0")),
+        .package(name: "Marigold", url: "https://github.com/sailthru/sailthru-mobile-ios-sdk", .upToNextMajor(from: "15.0.0")),
     ],
     targets: [
         .target(
-            name: "SailthruMobileSwift",
+            name: "MarigoldSwift",
             dependencies: [
-                .product(name: "SailthruMobile", package: "SailthruMobile", condition: .when(platforms: [.iOS])),
+                .product(name: "Marigold", package: "Marigold", condition: .when(platforms: [.iOS])),
             ]),
         .testTarget(
-            name: "SailthruMobileSwiftTests",
+            name: "MarigoldSwiftTests",
             dependencies: [
-                "SailthruMobileSwift",
+                "MarigoldSwift",
             ]),
     ],
     swiftLanguageVersions: [.v5]

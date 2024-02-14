@@ -13,36 +13,32 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-import SailthruMobile
+import Marigold
 
-class DummySTMMessageStream : STMMessageStream {
+/**
+ * Dummy override to allow testing of concurrency methods.
+ */
+class DummyMarigold : Marigold {
     public var responseError: Error? = nil
-    public var count: UInt = 0
-    public var messages: [STMMessage]? = nil
+    public var deviceId: String? = nil
+    public var vars: [String: Any]? = nil
     
     public var calledFunctions: [String] = []
     public var parameters: [Any?] = []
     
-    public override func unreadCount(_ handler: @escaping (UInt, Error?) -> Void) {
+    public override func deviceID(_ completion: @escaping (String?, Error?) -> Void) {
         calledFunctions.append(#function)
-        handler(count, responseError)
+        completion(deviceId, responseError)
     }
     
-    public override func markMessages(asRead messages: [STMMessage], withResponse handler: ((Error?) -> Void)? = nil) {
+    public override func setGeoIPTrackingEnabled(_ enabled: Bool, withResponse block: ((Error?) -> Void)? = nil) {
         calledFunctions.append(#function)
-        parameters.append(messages)
-        handler?(responseError)
+        parameters.append(enabled)
+        block?(responseError)
     }
     
-    public override func messages(_ block: @escaping ([STMMessage]?, Error?) -> Void) {
+    public override func setDevelopmentDeviceWithResponse(_ block: ((Error?) -> Void)?) {
         calledFunctions.append(#function)
-        block(messages, responseError)
+        block?(responseError)
     }
-    
-    public override func remove(_ message: STMMessage, withResponse handler: ((Error?) -> Void)? = nil) {
-        calledFunctions.append(#function)
-        parameters.append(message)
-        handler?(responseError)
-    }
-    
 }

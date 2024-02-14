@@ -15,7 +15,7 @@
 
 import Foundation
 
-public enum SailthruMobileError: Error {
+public enum MarigoldError: Error {
     /// Value is unexpectedly nil
     case nilValue
     /// Value is unexpectedly empty
