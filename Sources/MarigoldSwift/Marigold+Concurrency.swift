@@ -23,20 +23,6 @@ extension Marigold {
     // MARK: Device
     
     /**
-     *  Asyncronously clears any of the Attribute, Message Stream, or Event data from the device.
-     *
-     *  Use this method to clear the device attributes after user logout.
-     *
-     *  - Parameter types: A bitwise OR collection of MARDeviceDataType dictating which sets of data to clear.
-     *  - Throws: Error when call fails.
-     **/
-    public func clearDeviceData(for types: MARDeviceDataType) async throws {
-        try await withCheckedThrowingContinuation({ continuation in
-            clear(types, withResponse: ClosureBuilder.voidErrorClosure(continuation))
-        })
-    }
-    
-    /**
      *  Returns: the current device's ID as a String.
      *
      *  - Returns: String containing the device ID.

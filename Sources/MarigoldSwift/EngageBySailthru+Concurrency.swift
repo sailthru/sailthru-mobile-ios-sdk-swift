@@ -28,6 +28,7 @@ extension EngageBySailthru {
      *  - Parameter attributes: An MARAttributes object with the desired attributes set.
      *  - Throws: Error when call fails.
      */
+    @available(*, deprecated, message: "use setprofileVars: instead")
     public func set(attributes: MARAttributes) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             setAttributes(attributes, withResponse: ClosureBuilder.voidErrorClosure(continuation))
@@ -183,6 +184,21 @@ extension EngageBySailthru {
     public func log(abandonedCart: MARPurchase) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             logAbandonedCart(abandonedCart, withResponse: ClosureBuilder.voidErrorClosure(continuation))
+        })
+    }
+    
+    /**
+     *  Asyncronously clears any of the Attribute, Message Stream, or Event data from the device.
+     *
+     *  Use this method to clear the device attributes after user logout.
+     *
+     *  - Parameter types: A bitwise OR collection of MARDeviceDataType dictating which sets of data to clear.
+     *  - Throws: Error when call fails.
+     **/
+    @available(*, deprecated, message: "use setprofileVars: instead")
+    public func clearAttributes() async throws {
+        try await withCheckedThrowingContinuation({ continuation in
+            clearAttributes(response: ClosureBuilder.voidErrorClosure(continuation))
         })
     }
 
