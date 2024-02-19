@@ -23,7 +23,7 @@ extension Marigold {
     // MARK: Device
     
     /**
-     *  Asyncronously clears any of the Attribute, Message Stream, or Event data from the device.
+     *  Asyncronously clears any of the Message Stream or Event data from the device.
      *
      *  Use this method to clear the device attributes after user logout.
      *

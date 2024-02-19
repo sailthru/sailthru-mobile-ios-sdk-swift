@@ -49,7 +49,7 @@ extension EngageBySailthru {
     }
     
     /**
-     *  Asyncronously clears any of the Attribute, Message Stream, or Event data from the device.
+     *  Asyncronously clears the Attribute data from the device.
      *
      *  Use this method to clear the device attributes after user logout.
      *

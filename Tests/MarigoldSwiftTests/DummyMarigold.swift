@@ -26,6 +26,12 @@ class DummyMarigold : Marigold {
     public var calledFunctions: [String] = []
     public var parameters: [Any?] = []
     
+    public override func clear(_ types: MARDeviceDataType, withResponse block: ((Error?) -> Void)? = nil) {
+        calledFunctions.append(#function)
+        parameters.append(types)
+        block?(responseError)
+    }
+    
     public override func deviceID(_ completion: @escaping (String?, Error?) -> Void) {
         calledFunctions.append(#function)
         completion(deviceId, responseError)
