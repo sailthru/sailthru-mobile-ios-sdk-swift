@@ -14,14 +14,14 @@
 // DEALINGS IN THE SOFTWARE.
 
 import XCTest
-@testable import SailthruMobile
-@testable import SailthruMobileSwift
+@testable import Marigold
+@testable import MarigoldSwift
 
-final class STMMessageStreamConcurrencySpec: XCTestCase {
-    var subject = DummySTMMessageStream()
+final class MARMessageStreamConcurrencySpec: XCTestCase {
+    var subject = DummyMARMessageStream()
     
     override func setUp() {
-        subject = DummySTMMessageStream()
+        subject = DummyMARMessageStream()
     }
     
     func test_unreadCount_callsCorrectMethod() async throws {
@@ -44,16 +44,16 @@ final class STMMessageStreamConcurrencySpec: XCTestCase {
     }
     
     func test_markAsReadMessage_callsCorrectMethod() async throws {
-        let message = STMMessage()
+        let message = MARMessage()
         try await subject.mark(asRead: message)
         
         checkMethodCalled(with: "markMessages")
-        XCTAssertEqual([message], subject.parameters.first as? [STMMessage])
+        XCTAssertEqual([message], subject.parameters.first as? [MARMessage])
     }
     
     func test_markAsReadMessage_throwsOnError() async throws {
         subject.responseError = TestErrors.testError
-        let message = STMMessage()
+        let message = MARMessage()
         do {
             try await subject.mark(asRead: message)
             XCTFail("Should throw provided error")
@@ -65,22 +65,22 @@ final class STMMessageStreamConcurrencySpec: XCTestCase {
     
     func test_markAsReadMessages_callsCorrectMethod() async throws {
         let messages = [
-            STMMessage(),
-            STMMessage(),
-            STMMessage(),
+            MARMessage(),
+            MARMessage(),
+            MARMessage(),
         ]
         try await subject.mark(asRead: messages)
         
         checkMethodCalled(with: "markMessages")
-        XCTAssertEqual(messages, subject.parameters.first as? [STMMessage])
+        XCTAssertEqual(messages, subject.parameters.first as? [MARMessage])
     }
     
     func test_markAsReadMessages_throwsOnError() async throws {
         subject.responseError = TestErrors.testError
         let messages = [
-            STMMessage(),
-            STMMessage(),
-            STMMessage(),
+            MARMessage(),
+            MARMessage(),
+            MARMessage(),
         ]
         do {
             try await subject.mark(asRead: messages)
@@ -93,9 +93,9 @@ final class STMMessageStreamConcurrencySpec: XCTestCase {
     
     func test_messages_callsCorrectMethod() async throws {
         subject.messages = [
-            STMMessage(),
-            STMMessage(),
-            STMMessage(),
+            MARMessage(),
+            MARMessage(),
+            MARMessage(),
         ]
         let messages = try await subject.messages()
         
@@ -107,7 +107,7 @@ final class STMMessageStreamConcurrencySpec: XCTestCase {
         do {
             _ = try await subject.messages()
             XCTFail("Should throw provided error")
-        } catch SailthruMobileError.nilValue {
+        } catch MarigoldError.nilValue {
         } catch {
             XCTFail("Incorrect error thrown: \(error)")
         }
@@ -125,16 +125,16 @@ final class STMMessageStreamConcurrencySpec: XCTestCase {
     }
     
     func test_removeMessage_callsCorrectMethod() async throws {
-        let message = STMMessage()
+        let message = MARMessage()
         try await subject.remove(message: message)
         
         checkMethodCalled(with: "remove")
-        XCTAssertEqual(message, subject.parameters.first as? STMMessage)
+        XCTAssertEqual(message, subject.parameters.first as? MARMessage)
     }
     
     func test_removeMessage_throwsOnError() async throws {
         subject.responseError = TestErrors.testError
-        let message = STMMessage()
+        let message = MARMessage()
         do {
             try await subject.remove(message: message)
             XCTFail("Should throw provided error")

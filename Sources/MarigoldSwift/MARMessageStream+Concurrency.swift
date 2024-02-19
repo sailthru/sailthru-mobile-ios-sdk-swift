@@ -13,12 +13,12 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-import SailthruMobile
+import Marigold
 
 /**
  * Extensions to allow asynchronous functionality to be used with Swift Concurrency.
  */
-extension STMMessageStream {
+extension MARMessageStream {
     
     /**
      *  Asynchronously returns the total number of unread messages in the message stream.
@@ -44,7 +44,7 @@ extension STMMessageStream {
      *  - Parameter message: Message to mark as read.
      *  - Throws: Error when call fails.
      **/
-    public func mark(asRead message: STMMessage) async throws {
+    public func mark(asRead message: MARMessage) async throws {
         try await mark(asRead: [message])
     }
     
@@ -54,26 +54,26 @@ extension STMMessageStream {
      *  - Parameter messages: Array of messages to mark as read.
      *  - Throws: Error when call fails.
      **/
-    public func mark(asRead messages: [STMMessage]) async throws {
+    public func mark(asRead messages: [MARMessage]) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             markMessages(asRead: messages, withResponse: ClosureBuilder.voidErrorClosure(continuation))
         })
     }
     
     /**
-     *  Returns an array of STMMessages for the device.
+     *  Returns an array of MARMessages for the device.
      *
-     *  - Returns: Array of STMMessage objects.
+     *  - Returns: Array of MARMessage objects.
      *  - Throws: Error when call fails.
      **/
-    public func messages() async throws -> [STMMessage] {
+    public func messages() async throws -> [MARMessage] {
         return try await withCheckedThrowingContinuation({ continuation in
             messages { messages, error in
                 if let error = error {
                     return continuation.resume(throwing: error)
                 }
                 guard let messages = messages else {
-                    return continuation.resume(throwing: SailthruMobileError.nilValue)
+                    return continuation.resume(throwing: MarigoldError.nilValue)
                 }
                 
                 continuation.resume(returning: messages)
@@ -87,7 +87,7 @@ extension STMMessageStream {
      *  - Parameter message: The message to be removed.
      *  - Throws: Error when call fails.
      **/
-    public func remove(message: STMMessage) async throws {
+    public func remove(message: MARMessage) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             remove(message, withResponse: ClosureBuilder.voidErrorClosure(continuation))
         })

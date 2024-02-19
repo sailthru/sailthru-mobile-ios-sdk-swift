@@ -13,23 +13,23 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-import SailthruMobile
+import Marigold
 
 /**
  * Extensions to allow asynchronous functionality to be used with Swift Concurrency.
  */
-extension SailthruMobile {
-    
+extension EngageBySailthru {
     
     // MARK: Attributes
     
     /**
-     *  Asyncronously sets a STMAttributes object with Sailthru Mobile.
+     *  Asyncronously sets a MARAttributes object with Sailthru Mobile.
      *
-     *  - Parameter attributes: An STMAttributes object with the desired attributes set.
+     *  - Parameter attributes: An MARAttributes object with the desired attributes set.
      *  - Throws: Error when call fails.
      */
-    public func set(attributes: STMAttributes) async throws {
+    @available(*, deprecated, message: "use setprofileVars: instead")
+    public func set(attributes: MARAttributes) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             setAttributes(attributes, withResponse: ClosureBuilder.voidErrorClosure(continuation))
         })
@@ -41,50 +41,25 @@ extension SailthruMobile {
      *  - Parameter key: The string value of the key.
      *  - Throws: Error when call fails.
      **/
+    @available(*, deprecated, message: "use setprofileVars: instead")
     public func removeAttribute(with key: String) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             removeAttribute(withKey: key, withResponse: ClosureBuilder.voidErrorClosure(continuation))
         })
     }
     
-    
-    // MARK: Device
-    
     /**
-     *  Asyncronously clears any of the Attribute, Message Stream, or Event data from the device.
+     *  Asyncronously clears the Attribute data from the device.
      *
      *  Use this method to clear the device attributes after user logout.
      *
-     *  - Parameter types: A bitwise OR collection of STMDeviceDataType dictating which sets of data to clear.
+     *  - Parameter types: A bitwise OR collection of MARDeviceDataType dictating which sets of data to clear.
      *  - Throws: Error when call fails.
      **/
-    public func clearDeviceData(for types: STMDeviceDataType) async throws {
+    @available(*, deprecated, message: "use setprofileVars: instead")
+    public func clearAttributes() async throws {
         try await withCheckedThrowingContinuation({ continuation in
-            clear(types, withResponse: ClosureBuilder.voidErrorClosure(continuation))
-        })
-    }
-    
-    /**
-     *  Returns: the current device's ID as a String.
-     *
-     *  - Returns: String containing the device ID.
-     *  - Throws: Error when call fails.
-     **/
-    public func deviceId() async throws -> String {
-        return try await withCheckedThrowingContinuation({ continuation in
-            deviceID { deviceId, error in
-                if let error = error {
-                    return continuation.resume(throwing: error)
-                }
-                guard let deviceId = deviceId else {
-                    return continuation.resume(throwing: SailthruMobileError.nilValue)
-                }
-                guard !deviceId.isEmpty else {
-                    return continuation.resume(throwing: SailthruMobileError.emptyValue)
-                }
-                
-                continuation.resume(returning: deviceId)
-            }
+            clearAttributes(response: ClosureBuilder.voidErrorClosure(continuation))
         })
     }
     
@@ -109,33 +84,6 @@ extension SailthruMobile {
     public func set(userEmail: String?) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             setUserEmail(userEmail, withResponse: ClosureBuilder.voidErrorClosure(continuation))
-        })
-    }
-    
-    
-    // MARK: Recommendations
-    
-    /**
-     *  Returns: the output from a Site Personalisation Manager section, an array of recommendations for the given user.
-     *
-     *  It is suggested you use this in conjunction with setEmail: to identify the user to Sailthru.
-     *
-     *  - Parameter sectionId: An SPM section ID. The section must be set up to use JSON as the output format.
-     *  - Returns: Array of STMContentItems representing recommendations.
-     *  - Throws: Error when call fails.
-     **/
-    public func recommendations(with sectionId: String) async throws -> [STMContentItem] {
-        return try await withCheckedThrowingContinuation({ continuation in
-            recommendations(withSection: sectionId) { contentItems, error in
-                if let error = error {
-                    return continuation.resume(throwing: error)
-                }
-                guard let contentItems = contentItems else {
-                    return continuation.resume(throwing: SailthruMobileError.nilValue)
-                }
-                
-                continuation.resume(returning: contentItems)
-            }
         })
     }
     
@@ -221,31 +169,13 @@ extension SailthruMobile {
                     return continuation.resume(throwing: error)
                 }
                 guard let profileVars = profileVars else {
-                    return continuation.resume(throwing: SailthruMobileError.nilValue)
+                    return continuation.resume(throwing: MarigoldError.nilValue)
                 }
                 
                 return continuation.resume(returning: profileVars)
             }
         })
     }
-    
-    
-    // MARK: Location
-    
-    /**
-     *  Enabled location tracking based on IP Address. Tracking location tracking is enabled by default.
-     *
-     *  Use this method for users who may not want to have their location tracked at all.
-     *
-     *  - Parameter geoIpTrackingEnabled: A boolean value indicating whether or not to disable location based on IP Address.
-     *  - Throws: Error when call fails.
-     **/
-    public func set(geoIpTrackingEnabled: Bool) async throws {
-        try await withCheckedThrowingContinuation({ continuation in
-            setGeoIPTrackingEnabled(geoIpTrackingEnabled, withResponse: ClosureBuilder.voidErrorClosure(continuation))
-        })
-    }
-    
     
     // MARK: Purchases
     
@@ -255,7 +185,7 @@ extension SailthruMobile {
      *  - Parameter purchase: The purchase to log with the platform.
      *  - Throws: Error when call fails.
      **/
-    public func log(purchase: STMPurchase) async throws {
+    public func log(purchase: MARPurchase) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             logPurchase(purchase, withResponse: ClosureBuilder.voidErrorClosure(continuation))
         })
@@ -267,28 +197,9 @@ extension SailthruMobile {
      *  - Parameter abandonedCart: The abandoned purchase to log with the platform.
      *  - Throws: Error when call fails.
      **/
-    public func log(abandonedCart: STMPurchase) async throws {
+    public func log(abandonedCart: MARPurchase) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             logAbandonedCart(abandonedCart, withResponse: ClosureBuilder.voidErrorClosure(continuation))
         })
     }
-    
-    
-    // MARK: Development
-    
-#if DEBUG
-    
-    /**
-     *  Marks this device as a development device on the platform. This will instruct the platform to send push notifications to the development APNS server for this device.\
-     *
-     *  - Warning: This method should not be called in builds that will point to the APNS production environment, use only in debug or test builds.
-     *  - Throws: Error when call fails.
-     **/
-    public func setDevelopmentDevice() async throws {
-        try await withCheckedThrowingContinuation({ continuation in
-            setDevelopmentDeviceWithResponse(ClosureBuilder.voidErrorClosure(continuation))
-        })
-    }
-    
-#endif
 }

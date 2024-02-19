@@ -2,12 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "SailthruMobile",
+        "package": "Marigold",
         "repositoryURL": "https://github.com/sailthru/sailthru-mobile-ios-sdk",
         "state": {
           "branch": null,
-          "revision": "0ff5db01ffadf499d7b717f47353f884de940d3e",
-          "version": "14.0.0"
+          "revision": "4d6c5dfaff08220ba544007d34768ed68220ef4c",
+          "version": "15.0.0"
         }
       }
     ]
