@@ -41,9 +41,25 @@ extension EngageBySailthru {
      *  - Parameter key: The string value of the key.
      *  - Throws: Error when call fails.
      **/
+    @available(*, deprecated, message: "use setprofileVars: instead")
     public func removeAttribute(with key: String) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             removeAttribute(withKey: key, withResponse: ClosureBuilder.voidErrorClosure(continuation))
+        })
+    }
+    
+    /**
+     *  Asyncronously clears any of the Attribute, Message Stream, or Event data from the device.
+     *
+     *  Use this method to clear the device attributes after user logout.
+     *
+     *  - Parameter types: A bitwise OR collection of MARDeviceDataType dictating which sets of data to clear.
+     *  - Throws: Error when call fails.
+     **/
+    @available(*, deprecated, message: "use setprofileVars: instead")
+    public func clearAttributes() async throws {
+        try await withCheckedThrowingContinuation({ continuation in
+            clearAttributes(response: ClosureBuilder.voidErrorClosure(continuation))
         })
     }
     
@@ -186,20 +202,4 @@ extension EngageBySailthru {
             logAbandonedCart(abandonedCart, withResponse: ClosureBuilder.voidErrorClosure(continuation))
         })
     }
-    
-    /**
-     *  Asyncronously clears any of the Attribute, Message Stream, or Event data from the device.
-     *
-     *  Use this method to clear the device attributes after user logout.
-     *
-     *  - Parameter types: A bitwise OR collection of MARDeviceDataType dictating which sets of data to clear.
-     *  - Throws: Error when call fails.
-     **/
-    @available(*, deprecated, message: "use setprofileVars: instead")
-    public func clearAttributes() async throws {
-        try await withCheckedThrowingContinuation({ continuation in
-            clearAttributes(response: ClosureBuilder.voidErrorClosure(continuation))
-        })
-    }
-
 }

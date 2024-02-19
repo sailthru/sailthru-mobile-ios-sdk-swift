@@ -30,6 +30,13 @@ final class MarigoldConcurrencyTests: XCTestCase {
 
     // MARK: Device
     
+    func test_clearDeviceDataForTypes_callsCorrectMethod() async throws {
+        try await subject.clearDeviceData(for: .messageStream)
+        
+        checkMethodCalled(with: "clear")
+        XCTAssertEqual(MARDeviceDataType.messageStream, subject.parameters.first as? MARDeviceDataType)
+    }
+    
     func test_deviceId_callsCorrectMethod() async throws {
         subject.deviceId = "1234"
         let deviceId = try await subject.deviceId()
