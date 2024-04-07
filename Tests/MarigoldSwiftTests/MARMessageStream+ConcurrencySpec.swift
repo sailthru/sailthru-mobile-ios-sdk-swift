@@ -144,6 +144,23 @@ final class MARMessageStreamConcurrencySpec: XCTestCase {
         }
     }
     
+    func test_clearMessages_callsCorrectMethod() async throws {
+        try await subject.clearMessages()
+        
+        checkMethodCalled(with: "clearMessages")
+    }
+    
+    func test_clearMessages_throwsOnError() async throws {
+        subject.responseError = TestErrors.testError
+        do {
+            try await subject.clearMessages()
+            XCTFail("Should throw provided error")
+        } catch TestErrors.testError {
+        } catch {
+            XCTFail("Incorrect error thrown: \(error)")
+        }
+    }
+    
     
     // MARK: Helpers
     
