@@ -30,6 +30,7 @@ extension Marigold {
      *  - Parameter types: A bitwise OR collection of STMDeviceDataType dictating which sets of data to clear.
      *  - Throws: Error when call fails.
      **/
+    @available(*, deprecated, message: "Use EngageBySailthru.clearEvents or MARMessageStream.clearMessages instead.")
     public func clearDeviceData(for types: MARDeviceDataType) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             clear(types, withResponse: ClosureBuilder.voidErrorClosure(continuation))

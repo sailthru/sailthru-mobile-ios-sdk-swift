@@ -87,6 +87,17 @@ extension EngageBySailthru {
         })
     }
     
+    // MARK: Events
+    
+    /**
+     * Clear the custom events from the device data.
+     */
+    public func clearEvents() async throws {
+        try await withCheckedThrowingContinuation({ continuation in
+            clearEvents(response: ClosureBuilder.voidErrorClosure(continuation))
+        })
+    }
+    
     /**
      *  Registers that the given pageview with Sailthru SPM.
      *

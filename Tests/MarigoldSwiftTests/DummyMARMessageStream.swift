@@ -45,4 +45,8 @@ class DummyMARMessageStream : MARMessageStream {
         handler?(responseError)
     }
     
+    public override func clearMessages(response handler: ((Error?) -> Void)? = nil) {
+        calledFunctions.append(#function)
+        handler?(responseError)
+    }
 }

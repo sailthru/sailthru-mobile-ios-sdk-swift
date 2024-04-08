@@ -92,4 +92,13 @@ extension MARMessageStream {
             remove(message, withResponse: ClosureBuilder.voidErrorClosure(continuation))
         })
     }
+    
+    /**
+     * Clear the Message Stream for the device.
+     */
+    public func clearMessages() async throws {
+        try await withCheckedThrowingContinuation({ continuation in
+            clearMessages(response: ClosureBuilder.voidErrorClosure(continuation))
+        })
+    }
 }
